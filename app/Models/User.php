@@ -18,10 +18,9 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'login', 'password', 'first_name', 'last_name', 'birthdate',
     ];
+
 
     /**
      * The attributes that should be hidden for serialization.
@@ -42,4 +41,21 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    /**
+     * Получение событий, созданных пользователем.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function createdEvents()
+    {
+        return $this->hasMany(Event::class, 'creator_id');
+    }
+
+    public function events()
+    {
+        return $this->belongsToMany(Event::class);
+    }
+
+
 }
